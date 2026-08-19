@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nimbo ERP - Transforma tu MIPYME en Cuba</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        * {
+            cursor: none;
+        }
+        
+        .custom-cursor {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #3b82f6;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: all 0.15s ease;
+            mix-blend-mode: difference;
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+        }
+        
+        .cursor-trail {
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9998;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.3);
+        }
+        
+        .cursor-dot {
+            width: 8px;
+            height: 8px;
+            background: #3b82f6;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 10000;
+            box-shadow: 0 0 15px #3b82f6;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .gradient-bg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            background-size: 200% 200%;
+            animation: gradientShift 3s ease infinite;
+        }
+        
+        @keyframes gradientShift {
+            0%, 100% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+        
+        .feature-card {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(102, 126, 234, 0.1), transparent);
+            transform: rotate(45deg);
+            transition: all 0.6s;
+        }
+        
+        .feature-card:hover::before {
+            left: 100%;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 30px 60px rgba(102, 126, 234, 0.4);
+            border-color: rgba(102, 126, 234, 0.5);
+        }
+        
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.9;
+                transform: scale(1.02);
+            }
+        }
+        
+        .float-animation {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-30px);
+            }
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+        
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.4);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+        
+        .btn-primary::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+        
+        .btn-primary:hover::before {
+            width: 400px;
+            height: 400px;
+        }
+        
+        .btn-primary:hover::after {
+            left: 100%;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.6);
+        }
+        
+        .input-field {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .input-field:focus {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: #667eea;
+            box-shadow: 0 0 30px rgba(102, 126, 234, 0.5);
+            transform: translateY(-2px);
+        }
+        
+        .cloud-icon {
+            filter: drop-shadow(0 0 30px rgba(102, 126, 234, 0.8));
+            animation: glow 2s ease-in-out infinite;
+        }
+        
+        @keyframes glow {
+            0%, 100% {
+                filter: drop-shadow(0 0 30px rgba(102, 126, 234, 0.8));
+            }
+            50% {
+                filter: drop-shadow(0 0 50px rgba(102, 126, 234, 1));
+            }
+        }
+        
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(102, 126, 234, 0.6);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: scale(1.05);
+            border-color: rgba(102, 126, 234, 0.6);
+            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.3);
+        }
+        
+        .countdown-box {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(102, 126, 234, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .countdown-box:hover {
+            border-color: rgba(102, 126, 234, 0.6);
+            transform: scale(1.1);
+        }
+        
+        .testimonial-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .testimonial-card:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .shimmer {
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% {
+                background-position: -200% 0;
+            }
+            100% {
+                background-position: 200% 0;
+            }
+        }
+        
+        .bounce-animation {
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-20px);
+            }
+            60% {
+                transform: translateY(-10px);
+            }
+        }
+        
+        .rotate-animation {
+            animation: rotate 20s linear infinite;
+        }
+        
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        
+        .bg-particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        
+        .bg-particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            animation: floatParticle 15s infinite;
+        }
+        
+        @keyframes floatParticle {
+            0%, 100% {
+                transform: translateY(0) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(100px);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white overflow-x-hidden">
+    <!-- Custom Cursor -->
+    <div class="custom-cursor" id="cursor"></div>
+    <div class="cursor-trail" id="cursorTrail"></div>
+    <div class="cursor-dot" id="cursorDot"></div>
+    
+    <!-- Hero Section -->
+    <section class="min-h-screen flex items-center justify-center relative gradient-bg">
+        <div class="bg-particles" id="particles"></div>
+        
+        <div class="absolute inset-0 overflow-hidden">
+            <div class="absolute top-20 left-10 w-96 h-96 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
+            <div class="absolute top-40 right-10 w-96 h-96 bg-yellow-500 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
+            <div class="absolute -bottom-8 left-20 w-96 h-96 bg-pink-500 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-4000"></div>
+            <div class="absolute top-1/2 left-1/2 w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-3000"></div>
+        </div>
+        
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="flex flex-col items-center text-center">
+                <div class="float-animation mb-8">
+                    <svg class="cloud-icon w-40 h-40 text-white" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M5.5 16a3.5 3.5 0 01-.369-6.98 4 4 0 117.753-1.977A4.5 4.5 0 1113.5 16h-8z"/>
+                    </svg>
+                </div>
+                
+                <div class="mb-6 px-6 py-2 bg-white bg-opacity-20 rounded-full backdrop-filter backdrop-blur-lg">
+                    <span class="text-sm font-semibold">🚀 PRÓXIMAMENTE EN CUBA</span>
+                </div>
+                
+                <h1 class="text-7xl md:text-9xl font-black mb-6 pulse-animation">
+                    Nimbo ERP
+                </h1>
+                
+                <p class="text-3xl md:text-4xl mb-4 max-w-4xl font-bold">
+                    Tu empresa en la nube, tu negocio en el futuro
+                </p>
+                
+                <p class="text-2xl md:text-3xl mb-8 max-w-3xl text-gray-100">
+                    La primera solución ERP diseñada especialmente para las MIPYMES cubanas
+                </p>
+                
+                <div class="flex flex-col md:flex-row gap-4 mb-12">
+                    <div class="stat-card px-8 py-4 rounded-2xl">
+                        <div class="text-4xl font-black gradient-text">100%</div>
+                        <div class="text-sm">En la Nube</div>
+                    </div>
+                    <div class="stat-card px-8 py-4 rounded-2xl">
+                        <div class="text-4xl font-black gradient-text">24/7</div>
+                        <div class="text-sm">Disponible</div>
+                    </div>
+                    <div class="stat-card px-8 py-4 rounded-2xl">
+                        <div class="text-4xl font-black gradient-text">∞</div>
+                        <div class="text-sm">Posibilidades</div>
+                    </div>
+                </div>
+                
+                <p class="text-xl mb-8 max-w-2xl text-gray-200">
+                    <span class="font-bold">Olvídate del caos.</span> Facturación, inventario, contabilidad, RRHH y más en una sola plataforma. 
+                    <span class="font-bold">Todo lo que necesitas para hacer crecer tu negocio.</span>
+                </p>
+                
+                <a href="#registro" class="btn-primary text-white font-black py-5 px-16 rounded-full text-xl relative z-10 bounce-animation">
+                    ¡QUIERO SER DE LOS PRIMEROS!
+                </a>
+                
+                <p class="mt-6 text-sm text-gray-300">
+                    ⚡ Registro gratuito • Sin compromiso • Acceso anticipado exclusivo
+                </p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Problem/Solution Section -->
+    <section class="py-20 bg-gray-800 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-b from-gray-900 to-gray-800 opacity-50"></div>
+        
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="max-w-4xl mx-auto text-center mb-16">
+                <h2 class="text-5xl md:text-6xl font-black mb-6">
+                    ¿Cansado de <span class="gradient-text">perder tiempo</span>?
+                </h2>
+                <p class="text-2xl text-gray-300">
+                    Sabemos lo que enfrentas cada día...
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+                <div class="text-center p-8">
+                    <div class="text-6xl mb-4">😫</div>
+                    <h3 class="text-2xl font-bold mb-4">Horas en Excel</h3>
+                    <p class="text-gray-400">Hojas de cálculo interminables que nadie entiende</p>
+                </div>
+                <div class="text-center p-8">
+                    <div class="text-6xl mb-4">📉</div>
+                    <h3 class="text-2xl font-bold mb-4">Datos Perdidos</h3>
+                    <p class="text-gray-400">Información dispersa que nunca encuentras cuando la necesitas</p>
+                </div>
+                <div class="text-center p-8">
+                    <div class="text-6xl mb-4">💸</div>
+                    <h3 class="text-2xl font-bold mb-4">Dinero que se Escapa</h3>
+                    <p class="text-gray-400">Errores que te cuestan caro todos los días</p>
+                </div>
+            </div>
+            
+            <div class="text-center">
+                <div class="inline-block bg-gradient-to-r from-purple-600 to-pink-600 p-1 rounded-2xl">
+                    <div class="bg-gray-900 px-12 py-8 rounded-2xl">
+                        <h3 class="text-4xl font-black mb-4 gradient-text">
+                            ¡Hay una mejor manera!
+                        </h3>
+                        <p class="text-xl text-gray-300">
+                            Nimbo ERP automatiza todo para que tú te enfoques en lo que importa: <span class="font-bold">hacer crecer tu negocio</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Features Section -->
+    <section class="py-20 bg-gray-900">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-5xl md:text-6xl font-black mb-6">
+                    Todo lo que necesitas, <span class="gradient-text">en un solo lugar</span>
+                </h2>
+                <p class="text-2xl text-gray-400">
+                    Herramientas poderosas diseñadas para MIPYMES cubanas
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="feature-card p-8 rounded-2xl">
+                    <div class="text-6xl mb-4">💰</div>
+                    <h3 class="text-3xl font-black mb-4">Facturación Inteligente</h3>
+                    <p class="text-gray-300 text-lg">Genera facturas profesionales en segundos. Cumple con todas las regulaciones fiscales cubanas automáticamente.</p>
+                    <div class="mt-4 text-sm text-purple-400 font-semibold">✓ Ahorra 5+ horas semanales</div>
+                </div>
+                
+                <div class="feature-card p-8 rounded-2xl">
+                    <div class="text-6xl mb-4">📦</div>
+                    <h3 class="text-3xl font-black mb-4">Inventario en Tiempo Real</h3>
+                    <p class="text-gray-300 text-lg">Sabe exactamente qué tienes, dónde está y cuándo reordenar. Nunca más te quedes sin stock.</p>
+                    <div class="mt-4 text-sm text-purple-400 font-semibold">✓ Reduce pérdidas un 40%</div>
+                </div>
+                
+                <div class="feature-card p-8 rounded-2xl">
+                    <div class="text-6xl mb-4">📊</div>
+                    <h3 class="text-3xl font-black mb-4">Contabilidad Automática</h3>
+                    <p class="text-gray-300 text-lg">Tu contabilidad al día sin esfuerzo. Reportes automáticos y análisis financiero profesional.</p>
+                    <div class="mt-4 text-sm text-purple-400 font-semibold">✓ Cero errores humanos</div>
+                </div>
+                
+                <div class="feature-card p-8 rounded-2xl">
+                    <div class="text-6xl mb-4">👥</div>
+                    <h3 class="text-3xl font-black mb-4">Recursos Humanos Completo</h3>
+                    <p class="text-gray-300 text-lg">Nóminas, asistencia, vacaciones, contratos. Gestiona tu equipo como un profesional.</p>
+                    <div class="mt-4 text-sm text-purple-400 font-semibold">✓ 100% conforme con la ley</div>
+                </div>
+                
+                <div class="feature-card p-8 rounded-2xl">
+                    <div class="text-6xl mb-4">📈</div>
+                    <h3 class="text-3xl font-black mb-4">Reportes que Importan</h3>
+                    <p class="text-gray-300 text-lg">Dashboards en tiempo real con los KPIs que necesitas para tomar decisiones inteligentes.</p>
+                    <div class="mt-4 text-sm text-purple-400 font-semibold">✓ Decisiones basadas en datos</div>
+                </div>
+                
+                <div class="feature-card p-8 rounded-2xl">
+                    <div class="text-6xl mb-4">☁️</div>
+                    <h3 class="text-3xl font-black mb-4">Acceso desde Cualquier Lugar</h3>
+                    <p class="text-gray-300 text-lg">Trabaja desde tu oficina, casa o en movimiento. Tu negocio siempre contigo.</p>
+                    <div class="mt-4 text-sm text-purple-400 font-semibold">✓ PC, tablet o móvil</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Testimonials Section -->
+    <section class="py-20 bg-gray-800">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-5xl md:text-6xl font-black mb-6">
+                    Lo que dicen los <span class="gradient-text">primeros usuarios</span>
+                </h2>
+                <p class="text-2xl text-gray-400">
+                    Empresas cubanas que ya están probando Nimbo ERP
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                <div class="testimonial-card p-8 rounded-2xl">
+                    <div class="flex items-center mb-4">
+                        <div class="text-yellow-400 text-2xl">★★★★★</div>
+                    </div>
+                    <p class="text-gray-300 mb-6 text-lg">"Nimbo ERP transformó completamente mi restaurante. Ahora controlo inventario, ventas y empleados desde mi celular. ¡Increíble!"</p>
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center font-bold text-xl">MR</div>
+                        <div class="ml-4">
+                            <div class="font-bold">María Rodríguez</div>
+                            <div class="text-sm text-gray-400">Restaurante La Esquina</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card p-8 rounded-2xl">
+                    <div class="flex items-center mb-4">
+                        <div class="text-yellow-400 text-2xl">★★★★★</div>
+                    </div>
+                    <p class="text-gray-300 mb-6 text-lg">"Antes perdía horas haciendo facturas. Con Nimbo ERP, todo es automático. Mi contador está encantado y yo más tranquilo."</p>
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center font-bold text-xl">CP</div>
+                        <div class="ml-4">
+                            <div class="font-bold">Carlos Pérez</div>
+                            <div class="text-sm text-gray-400">Ferretería El Constructor</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card p-8 rounded-2xl">
+                    <div class="flex items-center mb-4">
+                        <div class="text-yellow-400 text-2xl">★★★★★</div>
+                    </div>
+                    <p class="text-gray-300 mb-6 text-lg">"Finalmente un sistema hecho para Cuba. Entiende nuestras necesidades y regulaciones. Lo recomiendo 100% a todas las MIPYMES."</p>
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center font-bold text-xl">LG</div>
+                        <div class="ml-4">
+                            <div class="font-bold">Laura González</div>
+                            <div class="text-sm text-gray-400">Boutique Style</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Countdown Section -->
+    <section class="py-20 bg-gradient-to-r from-purple-900 via-pink-900 to-red-900 relative overflow-hidden">
+        <div class="absolute inset-0 bg-black opacity-30"></div>
+        
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="text-center mb-12">
+                <h2 class="text-5xl md:text-6xl font-black mb-6">
+                    El lanzamiento está cerca
+                </h2>
+                <p class="text-2xl text-gray-200 mb-8">
+                    No te quedes fuera. Los primeros usuarios tendrán beneficios exclusivos.
+                </p>
+                
+                <div class="flex justify-center gap-4 md:gap-8 mb-12">
+                    <div class="countdown-box px-6 py-4 rounded-2xl text-center">
+                        <div class="text-5xl md:text-6xl font-black" id="days">00</div>
+                        <div class="text-sm mt-2">DÍAS</div>
+                    </div>
+                    <div class="countdown-box px-6 py-4 rounded-2xl text-center">
+                        <div class="text-5xl md:text-6xl font-black" id="hours">00</div>
+                        <div class="text-sm mt-2">HORAS</div>
+                    </div>
+                    <div class="countdown-box px-6 py-4 rounded-2xl text-center">
+                        <div class="text-5xl md:text-6xl font-black" id="minutes">00</div>
+                        <div class="text-sm mt-2">MINUTOS</div>
+                    </div>
+                    <div class="countdown-box px-6 py-4 rounded-2xl text-center">
+                        <div class="text-5xl md:text-6xl font-black" id="seconds">00</div>
+                        <div class="text-sm mt-2">SEGUNDOS</div>
+                    </div>
+                </div>
+                
+                <div class="bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg p-8 rounded-2xl max-w-2xl mx-auto">
+                    <h3 class="text-3xl font-black mb-4">🎁 Oferta Exclusiva de Lanzamiento</h3>
+                    <div class="bg-gradient-to-r from-yellow-500 to-orange-500 p-4 rounded-xl mb-6">
+                        <p class="text-xl font-black text-white">⚡ SOLO LOS PRIMEROS 10 USUARIOS</p>
+                        <p class="text-3xl font-black text-white mt-2">50% DE DESCUENTO POR 3 MESES</p>
+                    </div>
+                    <ul class="text-left space-y-3 text-lg">
+                        <li class="flex items-start">
+                            <span class="text-green-400 mr-3 text-2xl">✓</span>
+                            <span><strong>Paga la mitad</strong> durante los primeros 3 meses</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-green-400 mr-3 text-2xl">✓</span>
+                            <span><strong>Soporte prioritario</strong> 24/7</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-green-400 mr-3 text-2xl">✓</span>
+                            <span><strong>Capacitación personalizada</strong> incluida</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-green-400 mr-3 text-2xl">✓</span>
+                            <span><strong>Precio de fundador</strong> de por vida</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Registration Section -->
+    <section id="registro" class="py-20 bg-gray-900 relative overflow-hidden">
+        <div class="absolute inset-0">
+            <div class="absolute top-0 left-1/4 w-96 h-96 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20"></div>
+            <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-pink-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20"></div>
+        </div>
+        
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="max-w-3xl mx-auto">
+                <div class="text-center mb-12">
+                    <div class="inline-block bg-red-500 text-white px-6 py-2 rounded-full font-bold text-sm mb-4 animate-pulse">
+                        ⚡ SOLO 10 CUPOS CON 50% DE DESCUENTO
+                    </div>
+                    <h2 class="text-5xl md:text-6xl font-black mb-6">
+                        Reserva tu lugar <span class="gradient-text">AHORA</span>
+                    </h2>
+                    <p class="text-2xl text-gray-300">
+                        Únete a las MIPYMES cubanas que están transformando su negocio
+                    </p>
+                </div>
+                
+                <form id="registroForm" class="space-y-6 bg-white bg-opacity-5 backdrop-filter backdrop-blur-lg p-8 md:p-12 rounded-3xl border border-white border-opacity-10">
+                    <div>
+                        <label class="block text-sm font-bold mb-2 text-gray-300">Nombre Completo *</label>
+                        <input type="text" name="nombre" required class="input-field w-full px-6 py-4 rounded-xl text-white placeholder-gray-400 text-lg" placeholder="Ej: Juan Pérez García">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-bold mb-2 text-gray-300">Correo Electrónico *</label>
+                        <input type="email" name="email" required class="input-field w-full px-6 py-4 rounded-xl text-white placeholder-gray-400 text-lg" placeholder="tu@email.com">
+                        <p class="text-sm text-gray-400 mt-2">📧 Te enviaremos los detalles del lanzamiento aquí</p>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-bold mb-2 text-gray-300">Nombre de tu Empresa *</label>
+                        <input type="text" name="empresa" required class="input-field w-full px-6 py-4 rounded-xl text-white placeholder-gray-400 text-lg" placeholder="Ej: Mi MIPYME S.A.">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-bold mb-2 text-gray-300">Sector de tu Empresa *</label>
+                        <select name="sector" required class="input-field w-full px-6 py-4 rounded-xl text-white text-lg">
+                            <option value="" class="bg-gray-800">Selecciona tu sector</option>
+                            <option value="comercio" class="bg-gray-800">Comercio / Tienda</option>
+                            <option value="servicios" class="bg-gray-800">Servicios</option>
+                            <option value="manufactura" class="bg-gray-800">Manufactura / Producción</option>
+                            <option value="tecnologia" class="bg-gray-800">Tecnología</option>
+                            <option value="gastronomia" class="bg-gray-800">Gastronomía / Restaurantes</option>
+                            <option value="construccion" class="bg-gray-800">Construcción</option>
+                            <option value="transporte" class="bg-gray-800">Transporte</option>
+                            <option value="otro" class="bg-gray-800">Otro</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-bold mb-2 text-gray-300">Teléfono (opcional)</label>
+                        <input type="tel" name="telefono" class="input-field w-full px-6 py-4 rounded-xl text-white placeholder-gray-400 text-lg" placeholder="+53 5XXX XXXX">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-bold mb-2 text-gray-300">¿Cuántos empleados tienes?</label>
+                        <select name="empleados" class="input-field w-full px-6 py-4 rounded-xl text-white text-lg">
+                            <option value="" class="bg-gray-800">Selecciona</option>
+                            <option value="1-5" class="bg-gray-800">1-5 empleados</option>
+                            <option value="6-20" class="bg-gray-800">6-20 empleados</option>
+                            <option value="21-50" class="bg-gray-800">21-50 empleados</option>
+                            <option value="51+" class="bg-gray-800">Más de 50 empleados</option>
+                        </select>
+                    </div>
+                    
+                    <button type="submit" class="btn-primary w-full text-white font-black py-5 px-8 rounded-xl text-xl relative z-10 shimmer">
+                        🚀 RESERVAR MI LUGAR AHORA
+                    </button>
+                    
+                    <p class="text-center text-sm text-gray-400">
+                        🔒 Tus datos están 100% seguros. No compartimos tu información con nadie.
+                    </p>
+                </form>
+                
+                <div id="successMessage" class="hidden mt-8 p-8 bg-gradient-to-r from-green-500 to-emerald-500 bg-opacity-20 border-2 border-green-500 rounded-2xl text-center">
+                    <div class="text-6xl mb-4">🎉</div>
+                    <h3 class="text-3xl font-black mb-4">¡FELICIDADES!</h3>
+                    <p class="text-xl mb-4">Tu registro fue exitoso. Estás en la lista de acceso anticipado.</p>
+                    <p class="text-lg">Te contactaremos pronto con todos los detalles del lanzamiento.</p>
+                    <div class="mt-6 text-sm">
+                        <p>📧 Revisa tu correo electrónico</p>
+                        <p>📱 Te agregaremos a nuestro grupo exclusivo de WhatsApp</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Final CTA Section -->
+    <section class="py-20 bg-gradient-to-r from-purple-900 to-pink-900 relative overflow-hidden">
+        <div class="absolute inset-0">
+            <div class="absolute top-1/2 left-1/2 w-96 h-96 bg-white rounded-full mix-blend-multiply filter blur-3xl opacity-10 rotate-animation"></div>
+        </div>
+        
+        <div class="container mx-auto px-6 relative z-10 text-center">
+            <h2 class="text-5xl md:text-6xl font-black mb-6">
+                ¿Listo para transformar tu negocio?
+            </h2>
+            <p class="text-2xl mb-8 max-w-3xl mx-auto">
+                No dejes que tu competencia te adelante. Las MIPYMES que usan tecnología crecen <span class="font-bold">3 veces más rápido</span>.
+            </p>
+            <a href="#registro" class="btn-primary inline-block text-white font-black py-5 px-16 rounded-full text-xl relative z-10">
+                ¡SÍ, QUIERO TRANSFORMAR MI EMPRESA!
+            </a>
+            <p class="mt-6 text-sm text-gray-300">
+                ⚡ Registro gratuito • Sin tarjeta de crédito • Cancela cuando quieras
+            </p>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="py-12 bg-gray-900 border-t border-gray-800">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-8">
+                <div class="text-4xl font-black mb-4 gradient-text">Nimbo ERP</div>
+                <p class="text-xl text-gray-400 mb-4">La solución en la nube para MIPYMES en Cuba</p>
+                <p class="text-gray-500">Hecho con ❤️ para emprendedores cubanos</p>
+            </div>
+            
+            <div class="border-t border-gray-800 pt-8 text-center">
+                <p class="text-gray-500 text-sm">© 2024 Nimbo ERP. Todos los derechos reservados.</p>
+                <p class="text-gray-600 text-xs mt-2">Próximamente en Cuba 🇨🇺</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Custom Cursor
+        const cursor = document.getElementById('cursor');
+        const cursorTrail = document.getElementById('cursorTrail');
+        const cursorDot = document.getElementById('cursorDot');
+        
+        let mouseX = 0;
+        let mouseY = 0;
+        let trailX = 0;
+        let trailY = 0;
+        let dotX = 0;
+        let dotY = 0;
+        
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            
+            cursorDot.style.left = mouseX + 'px';
+            cursorDot.style.top = mouseY + 'px';
+        });
+        
+        // Smooth trail animation
+        function animateTrail() {
+            const dx = mouseX - trailX;
+            const dy = mouseY - trailY;
+            
+            trailX += dx * 0.15;
+            trailY += dy * 0.15;
+            
+            cursor.style.left = trailX + 'px';
+            cursor.style.top = trailY + 'px';
+            
+            const dotDx = mouseX - dotX;
+            const dotDy = mouseY - dotY;
+            
+            dotX += dotDx * 0.3;
+            dotY += dotDy * 0.3;
+            
+            cursorTrail.style.left = dotX + 'px';
+            cursorTrail.style.top = dotY + 'px';
+            
+            requestAnimationFrame(animateTrail);
+        }
+        
+        animateTrail();
+        
+        // Cursor effects on hover
+        const interactiveElements = document.querySelectorAll('a, button, input, select, .feature-card, .stat-card, .testimonial-card');
+        
+        interactiveElements.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                cursor.style.width = '50px';
+                cursor.style.height = '50px';
+                cursor.style.borderColor = '#f093fb';
+                cursor.style.boxShadow = '0 0 30px rgba(240, 147, 251, 0.8)';
+                cursorTrail.style.width = '80px';
+                cursorTrail.style.height = '80px';
+                cursorTrail.style.borderColor = 'rgba(240, 147, 251, 0.5)';
+            });
+            
+            el.addEventListener('mouseleave', () => {
+                cursor.style.width = '20px';
+                cursor.style.height = '20px';
+                cursor.style.borderColor = '#3b82f6';
+                cursor.style.boxShadow = '0 0 20px rgba(59, 130, 246, 0.5)';
+                cursorTrail.style.width = '40px';
+                cursorTrail.style.height = '40px';
+                cursorTrail.style.borderColor = 'rgba(59, 130, 246, 0.3)';
+            });
+        });
+        
+        // Background particles
+        function createBackgroundParticles() {
+            const particlesContainer = document.getElementById('particles');
+            
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'bg-particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 15 + 's';
+                particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+        
+        createBackgroundParticles();
+        
+        // Countdown Timer
+        function updateCountdown() {
+            const launchDate = new Date();
+            launchDate.setDate(launchDate.getDate() + 30); // 30 days from now
+            
+            const now = new Date();
+            const diff = launchDate - now;
+            
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            
+            document.getElementById('days').textContent = String(days).padStart(2, '0');
+            document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+            document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+            document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+        }
+        
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+        
+        // Form submission
+        const form = document.getElementById('registroForm');
+        const successMessage = document.getElementById('successMessage');
+        const submitBtn = form.querySelector('button[type="submit"]');
+        
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = new FormData(form);
+            const payload = {
+                nombre: formData.get('nombre'),
+                email: formData.get('email'),
+                empresa: formData.get('empresa'),
+                sector: formData.get('sector'),
+                telefono: formData.get('telefono') || '',
+                empleados: formData.get('empleados') || ''
+            };
+            
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'ENVIANDO...';
+            
+            try {
+                const res = await fetch('/api/reserva', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                
+                const data = await res.json();
+                
+                if (!res.ok || !data.ok) {
+                    throw new Error(data.error || 'Error al enviar la reserva');
+                }
+                
+                form.style.display = 'none';
+                successMessage.classList.remove('hidden');
+                
+                createParticles();
+                
+                successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            } catch (err) {
+                alert('Lo sentimos, no se pudo enviar tu reserva: ' + err.message);
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = '🚀 RESERVAR MI LUGAR AHORA';
+            }
+        });
+        
+        // Particle effect
+        function createParticles() {
+            const colors = ['#667eea', '#764ba2', '#f093fb', '#f5576c', '#4facfe'];
+            
+            for (let i = 0; i < 100; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+                particle.style.left = Math.random() * window.innerWidth + 'px';
+                particle.style.top = Math.random() * window.innerHeight + 'px';
+                particle.style.width = (Math.random() * 6 + 2) + 'px';
+                particle.style.height = particle.style.width;
+                document.body.appendChild(particle);
+                
+                const angle = Math.random() * Math.PI * 2;
+                const velocity = Math.random() * 8 + 3;
+                const vx = Math.cos(angle) * velocity;
+                const vy = Math.sin(angle) * velocity;
+                
+                let x = parseFloat(particle.style.left);
+                let y = parseFloat(particle.style.top);
+                let opacity = 1;
+                
+                function animate() {
+                    x += vx;
+                    y += vy;
+                    opacity -= 0.015;
+                    
+                    particle.style.left = x + 'px';
+                    particle.style.top = y + 'px';
+                    particle.style.opacity = opacity;
+                    
+                    if (opacity > 0) {
+                        requestAnimationFrame(animate);
+                    } else {
+                        particle.remove();
+                    }
+                }
+                
+                animate();
+            }
+        }
+        
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+        
+        // Add scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.feature-card, .stat-card, .testimonial-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
