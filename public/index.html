@@ -852,6 +852,17 @@
         </div>
     </footer>
     
+    <!-- Video Modal -->
+    <div class="video-modal" id="videoModal">
+        <div class="video-box">
+            <button class="video-close" id="videoClose" type="button">✕</button>
+            <video id="promoVideo" controls playsinline preload="metadata">
+                <source src="video/nimbo-promo.mp4" type="video/mp4">
+                Tu navegador no soporta la reproducción de video.
+            </video>
+        </div>
+    </div>
+    
     <script>
         // Custom Cursor
         const cursor = document.getElementById('cursor');
@@ -1120,16 +1131,3 @@
             }
         });
     </script>
-    
-    <!-- Video Modal -->
-    <div class="video-modal" id="videoModal">
-        <div class="video-box">
-            <button class="video-close" id="videoClose" type="button">✕</button>
-            <video id="promoVideo" controls playsinline preload="metadata">
-                <source src="video/nimbo-promo.mp4" type="video/mp4">
-                Tu navegador no soporta la reproducción de video.
-            </video>
-        </div>
-    </div>
-</body>
-</html>
