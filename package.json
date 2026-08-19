@@ -2,19 +2,16 @@
   "name": "page-nimboerp",
   "version": "1.0.0",
   "private": true,
-  "description": "Landing page + backend de reservas de Nimbo ERP",
+  "description": "Landing page + backend de reservas de Nimbo ERP (Cloudflare Pages + D1)",
   "type": "module",
-  "main": "server.js",
   "scripts": {
-    "start": "node server.js",
-    "dev": "node server.js"
+    "dev": "wrangler pages dev public",
+    "d1:create": "wrangler d1 create reservas-nimboerp",
+    "d1:init": "wrangler d1 migrations apply reservas-nimboerp --local",
+    "deploy": "wrangler pages deploy public",
+    "preview": "wrangler pages dev public"
   },
-  "dependencies": {
-    "better-sqlite3": "^13.0.1",
-    "cors": "^2.8.5",
-    "dotenv": "^17.2.3",
-    "express": "^4.22.2",
-    "express-rate-limit": "^7.5.0",
-    "helmet": "^8.1.0"
+  "devDependencies": {
+    "wrangler": "^4.124.0"
   }
 }

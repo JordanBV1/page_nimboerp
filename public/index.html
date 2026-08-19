@@ -338,6 +338,84 @@
                 opacity: 0;
             }
         }
+        
+        .play-btn {
+            background: linear-gradient(135deg, #f093fb 0%, #667eea 100%);
+            box-shadow: 0 0 40px rgba(240, 147, 251, 0.6);
+            transition: all 0.3s ease;
+            animation: playPulse 2s infinite;
+        }
+        
+        .play-btn:hover {
+            transform: scale(1.15);
+            box-shadow: 0 0 60px rgba(240, 147, 251, 0.9);
+        }
+        
+        @keyframes playPulse {
+            0%, 100% {
+                box-shadow: 0 0 30px rgba(240, 147, 251, 0.4);
+            }
+            50% {
+                box-shadow: 0 0 60px rgba(240, 147, 251, 0.8);
+            }
+        }
+        
+        .video-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 10001;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(8px);
+        }
+        
+        .video-modal.open {
+            display: flex;
+        }
+        
+        .video-modal .video-box {
+            position: relative;
+            width: 90%;
+            max-width: 960px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 40px 80px rgba(102, 126, 234, 0.4);
+            border: 2px solid rgba(102, 126, 234, 0.4);
+        }
+        
+        .video-modal video {
+            width: 100%;
+            display: block;
+            aspect-ratio: 16 / 9;
+            background: #000;
+        }
+        
+        .video-close {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.15);
+            color: #fff;
+            font-size: 22px;
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+        
+        .video-close:hover {
+            background: rgba(240, 147, 251, 0.4);
+            border-color: #f093fb;
+            transform: scale(1.1);
+        }
     </style>
 </head>
 <body class="bg-gray-900 text-white overflow-x-hidden">
@@ -401,9 +479,17 @@
                     <span class="font-bold">Todo lo que necesitas para hacer crecer tu negocio.</span>
                 </p>
                 
-                <a href="#registro" class="btn-primary text-white font-black py-5 px-16 rounded-full text-xl relative z-10 bounce-animation">
-                    ¡QUIERO SER DE LOS PRIMEROS!
-                </a>
+                <div class="flex flex-col md:flex-row items-center gap-4 mb-6">
+                    <a href="#registro" class="btn-primary text-white font-black py-5 px-16 rounded-full text-xl relative z-10 bounce-animation">
+                        ¡QUIERO SER DE LOS PRIMEROS!
+                    </a>
+                    <button id="openVideo" type="button" class="play-btn text-white font-black py-5 px-8 rounded-full text-lg relative z-10 flex items-center gap-3">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"/>
+                        </svg>
+                        VER VIDEO
+                    </button>
+                </div>
                 
                 <p class="mt-6 text-sm text-gray-300">
                     ⚡ Registro gratuito • Sin compromiso • Acceso anticipado exclusivo
@@ -1001,6 +1087,49 @@
             el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
             observer.observe(el);
         });
+        
+        // Video modal
+        const videoModal = document.getElementById('videoModal');
+        const openVideoBtn = document.getElementById('openVideo');
+        const videoCloseBtn = document.getElementById('videoClose');
+        const promoVideo = document.getElementById('promoVideo');
+        
+        function openVideoModal() {
+            videoModal.classList.add('open');
+            promoVideo.play();
+        }
+        
+        function closeVideoModal() {
+            videoModal.classList.remove('open');
+            promoVideo.pause();
+            promoVideo.currentTime = 0;
+        }
+        
+        openVideoBtn.addEventListener('click', openVideoModal);
+        videoCloseBtn.addEventListener('click', closeVideoModal);
+        
+        videoModal.addEventListener('click', (e) => {
+            if (e.target === videoModal) {
+                closeVideoModal();
+            }
+        });
+        
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeVideoModal();
+            }
+        });
     </script>
+    
+    <!-- Video Modal -->
+    <div class="video-modal" id="videoModal">
+        <div class="video-box">
+            <button class="video-close" id="videoClose" type="button">✕</button>
+            <video id="promoVideo" controls playsinline preload="metadata">
+                <source src="video/nimbo-promo.mp4" type="video/mp4">
+                Tu navegador no soporta la reproducción de video.
+            </video>
+        </div>
+    </div>
 </body>
 </html>

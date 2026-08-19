@@ -1,0 +1,10 @@
+name = "page-nimboerp"
+compatibility_date = "2024-11-01"
+pages_build_output_dir = "public"
+
+[vars]
+NOTIFY_EMAIL = "nimboerp@gmail.com"
+EMAILJS_SERVICE_ID = ""
+EMAILJS_TEMPLATE_ID = ""
+EMAILJS_PUBLIC_KEY = ""
+EMAILJS_PRIVATE_KEY = ""
